@@ -25,6 +25,9 @@ def get_data(year_name, circuit_name, session_name, driver_name):
     with open(f'./Telemetry/{driver_name}_{session_name}_{year_name}_{circuit_name}_car_data.csv','a') as fd:
         fd.write("Pos_data\n")
     pos_data.to_csv(f'./Telemetry/{driver_name}_{session_name}_{year_name}_{circuit_name}_car_data.csv', index=False, float_format='%.10f', mode='a')
+    with open(f'./Telemetry/{driver_name}_{session_name}_{year_name}_{circuit_name}_car_data.csv','a') as fd:
+        fd.write("Lap_data\n")
+    driver.to_csv(f'./Telemetry/{driver_name}_{session_name}_{year_name}_{circuit_name}_car_data.csv', index=False, float_format='%.10f', mode='a')
 
 def get_season(year_name):
     ergast = Ergast()
@@ -52,6 +55,6 @@ def get_drivers(year_name, circuit_name, session_name):
 #             get_data('2024', race, 'R', driver)
 
 ergast = Ergast()
-driver_name, driver_num = get_drivers(2024, 'Belgian Grand Prix', 'R')
+driver_name, driver_num = get_drivers(2024, 'Dutch Grand Prix', 'R')
 for driver in driver_name:
-    get_data('2024', 'Belgian Grand Prix', 'R', driver)
+    get_data('2024', 'Dutch Grand Prix', 'R', driver)
