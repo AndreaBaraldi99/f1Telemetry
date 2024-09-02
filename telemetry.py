@@ -15,7 +15,7 @@ def get_data(year_name, circuit_name, session_name, driver_name):
     driver_info = session.get_driver(driver_name)
     ergast = Ergast()
     circuit = ergast.get_circuits(season=year_name, round=session.event.RoundNumber)['circuitName'].iloc[0]
-    PATH = f'./Telemetry/{year_name}/{circuit_name}/{session_name}/{driver_name}_{session_name}_{year_name}_{circuit_name}_car_data.gz'
+    PATH = f'./Telemetry/{year_name}/{circuit_name}/{session_name}/{driver_name}_{session_name}_{year_name}_{circuit_name}_car_data.csv'
     with open(PATH,'w+') as fd:
         fd.write('F1 for AiM\n')
         fd.write(f"Racer,{driver_info['FullName']}\n")
@@ -23,13 +23,13 @@ def get_data(year_name, circuit_name, session_name, driver_name):
         fd.write(f"Track,{circuit}\n")
         fd.write(f"Championship,Season {year_name}\n")
         fd.write("Car_data\n")
-    car_data.to_csv(PATH, index=False, float_format='%.10f', mode='a', compression='gzip')
+    car_data.to_csv(PATH, index=False, float_format='%.10f', mode='a')
     with open(PATH,'a') as fd:
         fd.write("Pos_data\n")
-    pos_data.to_csv(PATH, index=False, float_format='%.10f', mode='a', compression='gzip')
+    pos_data.to_csv(PATH, index=False, float_format='%.10f', mode='a')
     with open(PATH,'a') as fd:
         fd.write("Lap_data\n")
-    driver.to_csv(PATH, index=False, float_format='%.10f', mode='a', compression='gzip')
+    driver.to_csv(PATH, index=False, float_format='%.10f', mode='a')
 
 def get_season(year_name):
     ergast = Ergast()
@@ -51,14 +51,8 @@ ergast = Ergast()
 season = ergast.get_race_schedule(2024)
 for race in season['raceName']:
     if race == 'Italian Grand Prix':
-        break
-    for i in range(1, 6):
-        event_name = fastf1.get_event(2024, race).get_session_name(i)
-        driver_name, driver_num = get_drivers(2024, race, event_name)
-        for driver in driver_name:
-            get_data('2024', race, event_name, driver)
-
-""" ergast = Ergast()
-driver_name, driver_num = get_drivers(2024, 'Dutch Grand Prix', 'R')
-for driver in driver_name:
-    get_data('2024', 'Dutch Grand Prix', 'R', driver) """
+        for i in range(1, 6):
+            event_name = fastf1.get_event(2024, race).get_session_name(i)
+            driver_name, driver_num = get_drivers(2024, race, event_name)
+            for driver in driver_name:
+                get_data('2024', race, event_name, driver)
