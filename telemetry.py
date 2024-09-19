@@ -50,7 +50,7 @@ def get_drivers(year_name, circuit_name, session_name):
 ergast = Ergast()
 season = ergast.get_race_schedule(2024)
 for race in season['raceName']:
-    if race == 'Italian Grand Prix':
+    if race == 'Azerbaijan Grand Prix':
         for i in range(1, 6):
             event_name = fastf1.get_event(2024, race).get_session_name(i)
             driver_name, driver_num = get_drivers(2024, race, event_name)

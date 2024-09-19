@@ -16,11 +16,12 @@ import fastf1 as ff1
 # we want to plot.
 
 colormap = mpl.cm.plasma
+FEATURE = 'Throttle'
 
 
 ##############################################################################
 # Next, we load the session and select the desired data.
-session = ff1.get_session(2024, 'Italian Grand Prix', 'Q')
+session = ff1.get_session(2024, 'Monza', 'Q')
 weekend = session.event
 session.load()
 lap = session.laps.pick_driver('LEC').pick_fastest()
@@ -28,7 +29,7 @@ lap = session.laps.pick_driver('LEC').pick_fastest()
 # Get telemetry data
 x = lap.telemetry['X']              # values for x-axis
 y = lap.telemetry['Y']             # values for y-axis
-color = lap.telemetry['Throttle']      # value to base color gradient on
+color = lap.telemetry[FEATURE]      # value to base color gradient on
 
 
 ##############################################################################
@@ -45,7 +46,7 @@ segments = np.concatenate([points[:-1], points[1:]], axis=1)
 
 # We create a plot with title and adjust some setting to make it look good.
 fig, ax = plt.subplots(sharex=True, sharey=True, figsize=(9, 9))
-fig.suptitle(f'Italian Grand Prix 2024 - Leclerc - Qualifying Fastest Lap - Throttle %', size=12)
+fig.suptitle(f"{session.event.EventName} 2024 - {lap['Driver']} - {session.name} Fastest Lap - {FEATURE} %", size=12)
 
 # Adjust margins and turn of axis
 plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.12)
